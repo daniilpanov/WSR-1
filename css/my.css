@@ -1,0 +1,41 @@
+body
+{
+    overflow: hidden;
+    font-family: "Roboto Light", serif;
+}
+
+#game-info
+{
+    text-align: center;
+}
+
+#score, #time
+{
+    padding: 5px;
+    margin: 10px 100px;
+    font-size: larger;
+}
+
+#game-pause
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#pause-icon
+{
+    width: 50%;
+    height: 50%;
+}
+
+#returnToMenu
+{
+    padding: 10px;
+    background-color: darkred;
+    color: white;
+    border-radius: 5px;
+}
