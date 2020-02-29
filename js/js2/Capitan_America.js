@@ -1,7 +1,7 @@
 class Capitan_America extends Pers
 {
-    constructor(x, y, image)
+    constructor(x, y)
     {
-        super(x, y, image)
+        super(x, y)
     }
 }

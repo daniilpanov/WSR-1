@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JustCode file</title>
+    <script src="js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<canvas id="area" style="position: absolute; top: 0; left: 0;">
+</canvas>
+
+<script>
+    $(document).ready(function ()
+    {
+        var loaded = 0, needed = 0, need_start = false, may_start = false;
+
+        function createImage(src)
+        {
+            var img = new Image();
+            //
+            img.onload = (function ()
+            {
+                loaded ++;
+
+                if (loaded >= needed)
+                    may_start = true;
+
+                if (need_start)
+                    start();
+            });
+            //
+            img.src = src;
+
+            needed ++;
+
+            return img;
+        }
+
+        var canvas = $("#area");
+        var context = document.getElementById("area").getContext("2d");
+
+        var player_img = createImage("res/img/player/Iron_Man.png");
+        var bg = createImage("res/img/background.jpg");
+
+        var player_model = {
+            item_width: 150, item_height: 250,
+            speed: 8, animation_speed: 8,
+            max_x_k: 9, max_jump_k: 5,
+            current: {
+                item_pos_x: 320, item_pos_y: 331,
+                animation_k: 0,
+                pos_x: 0, pos_y: 0,
+                direction: 1
+            }
+        };
+
+        var clipping = null;
+
+        function wait()
+        {
+            if (!may_start)
+            {
+                need_start = true;
+            }
+            else
+            {
+                start();
+            }
+        }
+
+        wait();
+
+        function start()
+        {
+            canvas.attr("width", (window.innerWidth));
+            canvas.attr("height", (window.innerHeight));
+
+            window.onresize = (function ()
+            {
+                canvas.attr("width", (window.innerWidth));
+                canvas.attr("height", (window.innerHeight));
+            });
+
+
+            var timer;
+
+            $("body").blur(function ()
+            {
+                $(this).focus();
+            }).keyup(function (code)
+            {
+                var k = code.which;
+
+                if (k === 38)
+                {
+                    
+                }
+                else if(k === 37 || k === 39)
+                {
+                    player_model.current.animation_k = 0;
+                }
+            }).keydown(function (code)
+            {
+                var k = code.which;
+
+                switch (k)
+                {
+                    case 37:
+                        if (typeof timer === "undefined")
+                        {
+                            if (player_model.current.animation_k < player_model.max_x_k)
+                                player_model.current.animation_k ++;
+                            else
+                                player_model.current.animation_k = 1;
+                            timer = setTimeout(function ()
+                            {
+                                player_model.current.pos_x -= player_model.speed;
+                                timer = undefined;
+                            }, 1000 - player_model.animation_speed * 100);
+                        }
+                        break;
+
+                    case 39:
+                        if (typeof timer === "undefined")
+                        {
+                            if (player_model.current.animation_k < player_model.max_x_k)
+                                player_model.current.animation_k ++;
+                            else
+                                player_model.current.animation_k = 1;
+                            timer = setTimeout(function ()
+                            {
+                                player_model.current.pos_x += player_model.speed;
+                                timer = undefined;
+                            }, 1000 - player_model.animation_speed * 100);
+                        }
+                        break;
+                }
+            });
+
+            player_model.current.pos_y = window.innerHeight - player_model.item_height - 25;
+
+            clipping = true;
+            clip();
+        }
+
+        function clip()
+        {
+            var w = canvas.width(), h = canvas.height();
+
+            switch (player_model.current.animation_k)
+            {
+                case 0:
+                    player_model.current.item_pos_x = 320;
+                    player_model.current.item_pos_y = 331;
+                    player_model.item_width = 150;
+                    player_model.item_height = 250;
+                    break;
+
+                case 1||2:
+                    player_model.current.item_pos_x = 400;
+                    player_model.current.item_pos_y = 40;
+                    player_model.item_width = 150;
+                    player_model.item_height = 250;
+                    break;
+
+                case 3||4:
+                    player_model.current.item_pos_x = 552;
+                    player_model.current.item_pos_y = 40;
+                    player_model.item_width = 230;
+                    player_model.item_height = 250;
+                    break;
+
+                case 5||6:
+                    player_model.current.item_pos_x = 795;
+                    player_model.current.item_pos_y = 40;
+                    player_model.item_width = 150;
+                    player_model.item_height = 250;
+                    break;
+
+                case 7||8:
+                    player_model.current.item_pos_x = 945;
+                    player_model.current.item_pos_y = 40;
+                    player_model.item_width = 230;
+                    player_model.item_height = 250;
+                    break;
+            }
+
+            context.clearRect(0, 0, w, h);
+            context.drawImage(bg, 0, 0, w, h);
+            context.drawImage(player_img, player_model.current.item_pos_x, player_model.current.item_pos_y,
+                              player_model.item_width, player_model.item_height,
+                              player_model.current.pos_x, player_model.current.pos_y,
+                              player_model.item_width, player_model.item_height
+            );
+
+            if (clipping)
+                setTimeout(clip, 25);
+        }
+    });
+</script>
+</body>
+</html>

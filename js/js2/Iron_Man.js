@@ -1,37 +1,15 @@
-class Iron_Man
+class Iron_Man extends Pers
 {
-    constructor(x, y, image, shift)
+    constructor(x, y)
     {
-        this.x = x;
-        this.y = y;
-        this.image = image;
-        this.shift = shift;
-        this.image_shift_pos = 0;
+        //var im_l = ;
+        var im_r = new Image();
+        im_r.src = "../../res/img/player/Iron_Man.png";
+        super(x, y, undefined, im_r, 0, 0, 100, 100, 5);
 
-        this.moving = null;
         this.health = 100;
         this.score = 0;
 
         this.dialog = null;
-    }
-
-    jump()
-    {
-
-    }
-
-    goToRight()
-    {
-
-    }
-
-    goToLeft()
-    {
-
-    }
-
-    stop()
-    {
-
     }
 }

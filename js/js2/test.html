@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Test</title>
+    <script src="../jquery-1.11.3.min.js"></script>
+    <script src="AnObject.js"></script>
+    <script src="Pers.js"></script>
+    <script src="Iron_Man.js"></script>
+</head>
+<body>
+<canvas id="canvas" width="1000" height="500"></canvas>
+
+<script>
+    $(document).ready(function ()
+    {
+        var image = new Iron_Man();
+        var test = document.getElementById("canvas").getContext("2d");
+
+        image.image.onload = (function ()
+        {
+            test.drawImage(image.image, 0, 0);
+        });
+    });
+</script>
+</body>
+</html>
